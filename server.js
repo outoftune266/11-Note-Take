@@ -1,6 +1,7 @@
 // Dependecies
 var express = require("express");
 var path = require("path");
+var fs = require("fs");
 
 var app = express();
 var PORT = process.env.PORT || 3000;
@@ -18,19 +19,34 @@ app.get("/notes", function(req, res) {
 });
 
 // Reads jb.json file and returns saved notes (unfinished)
-// app.get("/api/notes", function(req, res) {
-//     var notes = 
+app.get("/api/notes", function(req, res) {
+    let notes;
+    fs.readFile("./db/db.json", (err, data) => {
+        if (err) throw err;
+        notes = JSON.parse(data);
+        console.log(notes)
+        return res.json(notes)
+    });
+});
 
-//     return res.json()
-// });
+// Posts new notes to database (works)
+app.post("/api/notes", function(req, res) {
+    var newNote = req.body;
+    fs.readFile("./db/db.json", (err, data) => {
+        if (err) throw err;
+        let database = JSON.parse(data);
+        database.push(newNote);
+        
+        fs.writeFile("./db/db.json", JSON.stringify(database), (err) => {
+            if (err) throw err;
+            console.log("New note has been saved");
+        });
 
-// Posts new notes to database (unfinished)
-// app.post("/api/notes", function(req, res) {
-//     var newNote = req.body;
-//     console.log(newNote);
+        return res.json(database);
+    });
 
-//     res.json(newNote);
-// })
+    
+});
 
 // Deletes notes (unfinished)
 // app.delete("api/notes/:id", function(req, res) {
@@ -43,5 +59,5 @@ app.get("/notes", function(req, res) {
 
 
 app.listen(PORT, function() {
-    console.log("App listening on Port" + PORT);
+    console.log("App listening on Port " + PORT);
 });
