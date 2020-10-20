@@ -2,7 +2,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const uuid = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 var app = express();
 var PORT = process.env.PORT || 3000;
@@ -33,7 +33,11 @@ app.get("/api/notes", function(req, res) {
 
 // Posts new notes to database (works)
 app.post("/api/notes", function(req, res) {
-    var newNote = req.body;
+    let newNote = req.body;
+    let noteID = uuidv4();
+    //console.log(newNote);
+    Object.assign(newNote, {id: noteID});
+    //console.log(newNote);
     fs.readFile("./db/db.json", (err, data) => {
         if (err) throw err;
         let database = JSON.parse(data);
