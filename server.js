@@ -1,13 +1,15 @@
 // Dependecies
-var express = require("express");
-var path = require("path");
-var fs = require("fs");
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
+const uuid = require('uuid');
 
 var app = express();
 var PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static("public"));
 
 // Serves html files
 app.get("/", function(req, res) {
@@ -48,14 +50,14 @@ app.post("/api/notes", function(req, res) {
     
 });
 
-// Deletes notes (unfinished)
-// app.delete("api/notes/:id", function(req, res) {
-//     var noteID = req.params.id;
+//Deletes notes (unfinished)
+app.delete("api/notes/:id", function(req, res) {
+    var noteID = req.params.id;
 
-//     console.log(noteID);
+    console.log(noteID);
 
 
-// })
+})
 
 
 app.listen(PORT, function() {
