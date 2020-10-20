@@ -26,7 +26,7 @@ app.get("/api/notes", function(req, res) {
     fs.readFile("./db/db.json", (err, data) => {
         if (err) throw err;
         notes = JSON.parse(data);
-        console.log(notes)
+        //console.log(notes)
         return res.json(notes)
     });
 });
@@ -55,12 +55,27 @@ app.post("/api/notes", function(req, res) {
 });
 
 //Deletes notes (unfinished)
-app.delete("api/notes/:id", function(req, res) {
+app.delete("/api/notes/:id", function(req, res) {
     var noteID = req.params.id;
-
     console.log(noteID);
+    fs.readFile("./db/db.json", (err, data) => {
+        if (err) throw err;
+        let database = JSON.parse(data);
+        for (var i = 0; i < database.length; i++) {
+            if (database[i].id === noteID) {
+                database.splice(i, 1);
+            };
+        };
+        
+        fs.writeFile("./db/db.json", JSON.stringify(database), (err) => {
+            if (err) throw err;
+            console.log("Note has been deleted");
+        });
 
+        return res.json(database);
+    });
 
+    //res.send("Got a DELETE request!")
 })
 
 
