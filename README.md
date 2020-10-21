@@ -38,9 +38,6 @@ SOFTWARE.
 ## Contributing
 Contributions are welcome. Contact project owner.
 
-## Tests
-test as you see fit
-
 ## Questions
 * Github: [outoftune266](http://githumb.com/outoftune266)
 * Submit Questions to [zakmonnet@gmail.com](zakmonnet@gmail.com)
